@@ -2,6 +2,7 @@ package com.curtisnewbie.auth;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+
 import com.curtisnewbie.crypto.RandomGenerator;
 import org.jboss.logging.Logger;
 
@@ -44,8 +45,8 @@ public class Authenticator {
     public void genAuthKey() {
         this.authKey = randGen.randomStr(AUTH_KEY_LEN);
         this.authKeyTime = System.currentTimeMillis() + (1000 * AUTH_KEY_VALID_SEC);
-        this.logger
-                .info(String.format("Authentication Key: %s, Valid for %d seconds", this.authKey, AUTH_KEY_VALID_SEC));
+        this.logger.info(String.format("Authentication Key: '%s' Key is valid for %d seconds", this.authKey,
+                AUTH_KEY_VALID_SEC));
     }
 
     /**

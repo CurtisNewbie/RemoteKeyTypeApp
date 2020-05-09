@@ -15,7 +15,7 @@ import java.awt.event.KeyEvent;
 public enum Key {
 
     ARROW_UP("arrow_up", KeyEvent.VK_UP), ARROW_DOWN("arrow_down", KeyEvent.VK_DOWN),
-    ARROW_LEFT("arrow_left", KeyEvent.VK_LEFT), ARROW_RIGHT("arrw_right", KeyEvent.VK_RIGHT);
+    ARROW_LEFT("arrow_left", KeyEvent.VK_LEFT), ARROW_RIGHT("arrow_right", KeyEvent.VK_RIGHT);
 
     private final String str;
     private final int keyEvent;

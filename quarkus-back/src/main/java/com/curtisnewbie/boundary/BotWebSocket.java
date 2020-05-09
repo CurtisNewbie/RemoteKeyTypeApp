@@ -78,37 +78,49 @@ public class BotWebSocket {
     public void onError(Throwable t, Session session) {
         logger.error(t.getMessage());
         if (!session.isOpen()) {
-            closeAuthSession();
+            if (authSession != null && session.getId() == authSession.getId()) {
+                closeAuthSession();
+            } else {
+                sessions.remove(session.getId());
+            }
         }
     }
 
     @OnMessage
     public void onMsg(String msg, Session session) {
         if (authSession == null) { // no one authenticated yet
-            logger.info(msg);
-            if (auth.isAuthenticated(msg)) {
-                authSession = session;
-                sessions.clear(); // clear all sessions that are not authenticated
+            if (auth.isAuthenticated(msg.substring(1, msg.length() - 1))) {
                 logger.info("User Authenticated. Listening instructions");
+                authSession = session;
+                // clear all sessions that are not authenticated
+                for (var s : sessions.values()) {
+                    if (!s.getId().equals(authSession.getId()))
+                        closeSession(s);
+                }
+                sessions.clear();
             } else if (auth.isKeyExpired()) {
                 auth.genAuthKey();
+            } else {
+                // close this connection, since the key is incorrect
+                closeSession(session);
+                logger.info("User not authenticated due to incorrect key. Connection Closed.");
             }
         } else if (session.getId().equals(authSession.getId())) { // already authenticated
             // simulate keyboard inputs based on instructioons
-            instructBot(msg);
+            instructBot(msg.substring(1, msg.length() - 1));
             logger.info("Received Instructions: " + msg);
-        } else { // close this connection, since the key is incorrect
-            try {
-                session.close();
-            } catch (Exception e) {
-                logger.error(e);
-            }
         }
     }
 
-    /**
-     * Close the authenticated session
-     */
+    private void closeSession(Session session) {
+        try {
+            if (session.isOpen())
+                session.close();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+    }
+
     private void closeAuthSession() {
         authSession = null;
         logger.info("User Disconnected. Waiting for new connectin.");
@@ -126,6 +138,9 @@ public class BotWebSocket {
             bot.keyType(Key.ARROW_RIGHT.getKeyEvent());
         } else if (instruction.equals(Key.ARROW_UP.getStr())) {
             bot.keyType(Key.ARROW_UP.getKeyEvent());
+        } else {
+            return;
         }
+        logger.info("Pressed " + instruction);
     }
 }
