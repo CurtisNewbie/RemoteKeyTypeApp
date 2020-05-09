@@ -30,10 +30,13 @@ import org.jboss.logging.Logger;
 @ApplicationScoped
 public class Authenticator {
 
-    private static final int AUTH_KEY_LEN = 10;
-    private static final int AUTH_KEY_VALID_SEC = 100;
-
     private final Logger logger = Logger.getLogger(this.getClass());
+
+    @ConfigProperty(name = "auth.key.valid.sec")
+    protected int authKeyValidSec;
+
+    @ConfigProperty(name = "auth.key.length")
+    protected int keyLen;
 
     @Inject
     protected RandomGenerator randGen;
@@ -45,10 +48,10 @@ public class Authenticator {
      * Generate a random authenticatin key that is valid for a limited time
      */
     public void genAuthKey() {
-        this.authKey = randGen.randomStr(AUTH_KEY_LEN);
-        this.authKeyTime = System.currentTimeMillis() + (1000 * AUTH_KEY_VALID_SEC);
-        this.logger.info(String.format("Authentication Key: '%s' Key is valid for %d seconds", this.authKey,
-                AUTH_KEY_VALID_SEC));
+        this.authKey = randGen.randomStr(keyLen);
+        this.authKeyTime = System.currentTimeMillis() + (1000 * authKeyValidSec);
+        this.logger.info(
+                String.format("Authentication Key: '%s' Key is valid for %d seconds", this.authKey, authKeyValidSec));
     }
 
     /**
