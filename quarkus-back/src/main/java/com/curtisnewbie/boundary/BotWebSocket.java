@@ -59,6 +59,9 @@ public class BotWebSocket {
         } else {
             // waiting for authentication
             sessions.put(session.getId(), session);
+            if (!auth.hasAuthKey() || auth.isKeyExpired()) {
+                auth.genAuthKey();
+            }
         }
     }
 
@@ -82,6 +85,7 @@ public class BotWebSocket {
     @OnMessage
     public void onMsg(String msg, Session session) {
         if (authSession == null) { // no one authenticated yet
+            logger.info(msg);
             if (auth.isAuthenticated(msg)) {
                 authSession = session;
                 sessions.clear(); // clear all sessions that are not authenticated

@@ -71,4 +71,13 @@ public class Authenticator {
     public boolean isKeyExpired() {
         return System.currentTimeMillis() > authKeyTime;
     }
+
+    /**
+     * Check whether {@code authKey} is already generated
+     * 
+     * @return whether {@code authKey} is already generated
+     */
+    public boolean hasAuthKey() {
+        return authKey != null;
+    }
 }
