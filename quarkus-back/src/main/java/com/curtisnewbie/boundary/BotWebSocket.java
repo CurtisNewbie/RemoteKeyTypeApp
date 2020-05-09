@@ -1,7 +1,7 @@
 package com.curtisnewbie.boundary;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -45,7 +45,7 @@ public class BotWebSocket {
     private Session authSession = null;
 
     /** the sessions that are not authenticated, but are wait for authentication */
-    private Map<String, Session> sessions = new HashMap<>();
+    private Map<String, Session> sessions = new ConcurrentHashMap<>();
 
     @OnOpen
     public void onOpen(Session session) {
