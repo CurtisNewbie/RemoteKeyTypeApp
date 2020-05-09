@@ -1,0 +1,13 @@
+<h1>Keyboard Control</h1>
+<div *ngIf="!authKeySent">
+    <label for="authInput">Authentication Key: </label>
+    <input id="authInput" type="text" [(ngModel)]="authKey">
+</div>
+<button (click)="connectServer()">Connect</button>
+<button (click)="sendAuthKey()">Send Authentication Key</button>
+<div *ngIf="wss && authKeySent">
+    <button (click)="sendInstruction(KEY_EVENT.ARROW_UP)">Up</button>
+    <button (click)="sendInstruction(KEY_EVENT.ARROW_DOWN)">Down</button>
+    <button (click)="sendInstruction(KEY_EVENT.ARROW_LEFT)">Left</button>
+    <button (click)="sendInstruction(KEY_EVENT.ARROW_RIGHT)">Right</button>
+</div>
