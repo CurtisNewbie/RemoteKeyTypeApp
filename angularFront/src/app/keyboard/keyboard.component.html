@@ -8,10 +8,12 @@
             <input class="form-control" type="text" placeholder="e.g., '192.168.1.1'" [(ngModel)]="serverIp">
             <button class="btn btn-primary" (click)="connectServer()">Connect</button>
         </div>
-        <div *ngIf="wss && !authKeySent">
-            <label for="authInput">Authentication Key: </label>
-            <input id="authInput" type="text" [(ngModel)]="authKey">
-            <button class="btn btn-primary m-2" (click)="sendAuthKey()">Send Authentication Key</button>
+        <div class="input-group" *ngIf="wss && !authKeySent">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Authentication Key: </span>
+            </div>
+            <input id="authInput" class="form-control" type="text" [(ngModel)]="authKey">
+            <button class="btn btn-primary" (click)="sendAuthKey()">Send Authentication Key</button>
         </div>
     </div>
     <div *ngIf="wss && authKeySent">
