@@ -21,6 +21,7 @@ export class KeyboardComponent implements OnInit {
   wss: WebSocketSubject<string> = null;
   authKey: string;
   authKeySent: boolean;
+  serverIp: string = "";
 
   constructor(private websocket: WebsocketService) { }
 
@@ -31,11 +32,17 @@ export class KeyboardComponent implements OnInit {
    * Establish connectin with the server using websocket
    */
   connectServer(): void {
-    this.wss = this.websocket.openWsConn();
-    this.wss.subscribe({
-      error: (err) => console.log,
-      complete: () => { alert("Connection Closed."); this.authKey = null; this.authKeySent = false; this.wss = null; }
-    });
+    if (this.serverIp) {
+      this.wss = this.websocket.openWsConn(this.serverIp, () => {
+        alert("Cannot connect to server. Please make sure to enter the correct IP address.");
+        this.reset();
+      });
+      this.wss.subscribe({
+        error: (err) => console.log,
+        complete: () => { alert("Connection Closed."); this.reset(); }
+      });
+      this.serverIp = "";
+    }
   }
 
   /**
@@ -66,5 +73,11 @@ export class KeyboardComponent implements OnInit {
    */
   private send(msg: string): void {
     this.wss.next(msg);
+  }
+
+  private reset(): void {
+    this.authKey = null;
+    this.authKeySent = false;
+    this.wss = null;
   }
 }
