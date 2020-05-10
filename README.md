@@ -14,6 +14,7 @@ I want an app that allows me to simulate basic key typing on my PC/Laptop using 
 **More details:**
 - The communication between the backend and frontend is achieved through **WebSocket**. 
 - The Backend only accepts instructions (which key to type) when the user is authenticated, and **there can only be one authenticated user**.
+- The KeyEvents are received by the window or dialog that is focused. You will need to manully focus on the one that your want to control.
 - The **authentication process** is as follows: 
     1. Server generates a random string as a key for authentication. This key is only displayed in the terminal, and it's only valid for a limited time (depends on configuration). 
     2. User is required to connect to the server and send a correct key for authentication. If the key is incorrect, the connection will be closed by the server. If the key is used, i.e., a user is authenticated with the key, this key will no longer be valid.
