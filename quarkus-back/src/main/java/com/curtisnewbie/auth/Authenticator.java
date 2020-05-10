@@ -3,7 +3,7 @@ package com.curtisnewbie.auth;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import com.curtisnewbie.crypto.RandomGenerator;
+import com.curtisnewbie.util.RandomGenerator;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
