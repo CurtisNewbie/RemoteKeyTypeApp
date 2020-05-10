@@ -115,7 +115,6 @@ public class BotWebSocket {
             } else if (session.getId().equals(authSession.getId())) { // already authenticated
                 // simulate keyboard inputs based on instructioons
                 instructBot(msg.substring(1, msg.length() - 1));
-                logger.info("Received Instructions: " + msg);
             }
         }
     }
@@ -157,6 +156,5 @@ public class BotWebSocket {
         } else {
             return;
         }
-        logger.info("Pressed " + instruction);
     }
 }
