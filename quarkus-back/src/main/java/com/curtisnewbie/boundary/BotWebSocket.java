@@ -56,6 +56,7 @@ public class BotWebSocket {
                 closeSession(session);
             } else if (authSession != null && !authSession.isOpen()) {
                 closeAuthSession();
+                auth.genAuthKey();
             } else {
                 // waiting for authentication
                 sessions.put(session.getId(), session);
@@ -80,7 +81,7 @@ public class BotWebSocket {
     @OnError
     public void onError(Throwable t, Session session) {
         synchronized (lock) {
-            logger.error(t.getMessage());
+            logger.error(String.format("Error Occured %s", t != null ? ": " + t.getMessage() : ""));
             if (!session.isOpen()) {
                 if (authSession != null && session.getId() == authSession.getId()) {
                     closeAuthSession();
