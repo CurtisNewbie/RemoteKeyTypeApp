@@ -16,6 +16,7 @@ export class KeyboardComponent implements OnInit {
     ARROW_DOWN: "arrow_down",
     ARROW_LEFT: "arrow_left",
     ARROW_RIGHT: "arrow_right",
+    SPACE: "space"
   }
 
   wss: WebSocketSubject<string> = null;

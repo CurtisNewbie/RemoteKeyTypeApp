@@ -14,29 +14,36 @@
             <button class="btn btn-primary m-2" (click)="sendAuthKey()">Send Authentication Key</button>
         </div>
     </div>
-    <div *ngIf="wss && authKeySent">
+    <!-- <div *ngIf="wss && authKeySent"> -->
+    <div>
         <div class="row">
             <div class="col"></div>
             <div class="col text-center">
-                <button class="btn btn-primary " (click)="sendInstruction(KEY_EVENT.ARROW_UP)">Up</button>
+                <button class="btn btn-primary" (click)="sendInstruction(KEY_EVENT.ARROW_UP)">UP</button>
             </div>
             <div class="col"></div>
         </div>
         <div class="row">
             <div class="col text-right">
-                <button class="btn btn-primary " (click)="sendInstruction(KEY_EVENT.ARROW_LEFT)">Left</button>
+                <button class="btn btn-primary " (click)="sendInstruction(KEY_EVENT.ARROW_LEFT)">LEFT</button>
             </div>
             <div class="col"></div>
             <div class="col text-left">
-                <button class="btn btn-primary " (click)="sendInstruction(KEY_EVENT.ARROW_RIGHT)">Right</button>
+                <button class="btn btn-primary" (click)="sendInstruction(KEY_EVENT.ARROW_RIGHT)">RIGHT</button>
             </div>
         </div>
         <div class="row">
             <div class="col"></div>
             <div class="col text-center">
-                <button class="btn btn-primary " (click)="sendInstruction(KEY_EVENT.ARROW_DOWN)">Down</button>
+                <button class="btn btn-primary" (click)="sendInstruction(KEY_EVENT.ARROW_DOWN)">DOWN</button>
             </div>
             <div class="col"></div>
+        </div>
+        <div class="row mt-2">
+            <div class="col text-center">
+                <button class="btn btn-primary" style="width: 100%;"
+                    (click)="sendInstruction(KEY_EVENT.SPACE)">SPACE</button>
+            </div>
         </div>
     </div>
 </div>

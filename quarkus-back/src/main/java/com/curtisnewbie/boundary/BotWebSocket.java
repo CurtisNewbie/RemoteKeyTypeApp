@@ -153,8 +153,8 @@ public class BotWebSocket {
             bot.keyType(Key.ARROW_RIGHT.getKeyEvent());
         } else if (instruction.equals(Key.ARROW_UP.getStr())) {
             bot.keyType(Key.ARROW_UP.getKeyEvent());
-        } else {
-            return;
+        } else if (instruction.equals(Key.SPACE.getStr())) {
+            bot.keyType(Key.SPACE.getKeyEvent());
         }
     }
 }
