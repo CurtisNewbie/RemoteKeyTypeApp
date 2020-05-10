@@ -58,7 +58,6 @@ export class KeyboardComponent implements OnInit {
 
   /**
    * Send authentication key
-   * @param key 
    */
   sendAuthKey(): void {
     if (this.authKey && this.wss) {
