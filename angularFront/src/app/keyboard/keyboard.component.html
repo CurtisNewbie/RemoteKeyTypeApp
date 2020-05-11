@@ -13,7 +13,7 @@
                 <span class="input-group-text">Authentication Key: </span>
             </div>
             <input id="authInput" class="form-control" type="text" [(ngModel)]="authKey">
-            <button class="btn btn-primary" (click)="sendAuthKey()">Send Authentication Key</button>
+            <button class="btn btn-primary" (click)="sendAuthKey()">Send</button>
         </div>
     </div>
     <div *ngIf="wss && authKeySent">
