@@ -30,4 +30,4 @@ A few configurations are available in `./quarkus-back/src/main/resources/applica
 
 ## DEMO
 
-<img src="https://user-images.githubusercontent.com/45169791/81493368-6c8a1e80-92d2-11ea-8141-6b76ae5b1293.gif" />
+<img src="https://user-images.githubusercontent.com/45169791/81527576-3b225900-938d-11ea-8590-4571404d392f.gif" />
