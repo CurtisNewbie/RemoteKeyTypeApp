@@ -26,5 +26,5 @@ public final class Key {
             entry("k", KeyEvent.VK_K), entry("l", KeyEvent.VK_L), entry("z", KeyEvent.VK_Z), entry("x", KeyEvent.VK_X),
             entry("c", KeyEvent.VK_C), entry("v", KeyEvent.VK_V), entry("b", KeyEvent.VK_B), entry("n", KeyEvent.VK_N),
             entry("m", KeyEvent.VK_M), entry("backspace", KeyEvent.VK_BACK_SPACE), entry("comma", KeyEvent.VK_COMMA),
-            entry("period", KeyEvent.VK_PERIOD));
+            entry("period", KeyEvent.VK_PERIOD), entry("enter", KeyEvent.VK_ENTER));
 }

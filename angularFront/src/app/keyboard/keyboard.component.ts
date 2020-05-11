@@ -46,6 +46,7 @@ export class KeyboardComponent implements OnInit {
     BACKSPACE: "backspace",
     COMMA: "comma",
     PERIOD: "period",
+    ENTER: "enter"
   }
 
   wss: WebSocketSubject<string> = null;
