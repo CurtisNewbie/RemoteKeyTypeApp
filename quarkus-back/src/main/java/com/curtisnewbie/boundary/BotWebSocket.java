@@ -1,9 +1,11 @@
 package com.curtisnewbie.boundary;
 
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -17,6 +19,8 @@ import com.curtisnewbie.bot.Bot;
 import com.curtisnewbie.bot.Key;
 
 import org.jboss.logging.Logger;
+
+import io.quarkus.runtime.StartupEvent;
 
 /**
  * ------------------------------------
@@ -47,6 +51,14 @@ public class BotWebSocket {
 
     /** the sessions that are not authenticated, but are wait for authentication */
     private Map<String, Session> sessions = new HashMap<>();
+
+    protected void onStart(@Observes StartupEvent se) {
+        try {
+            InetAddress inet = InetAddress.getLocalHost();
+            logger.info(String.format("Your Current IP address: '%s'", inet.getHostAddress()));
+        } catch (Exception e) {
+        }
+    }
 
     @OnOpen
     public void onOpen(Session session) {
