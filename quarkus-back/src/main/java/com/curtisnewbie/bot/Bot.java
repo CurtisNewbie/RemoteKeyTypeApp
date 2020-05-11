@@ -40,7 +40,6 @@ public class Bot {
     public void keyType(int keycode) {
         if (robot != null) {
             robot.keyPress(keycode);
-            robot.delay(40);
             robot.keyRelease(keycode);
         }
     }
