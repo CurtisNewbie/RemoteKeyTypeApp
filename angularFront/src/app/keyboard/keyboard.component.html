@@ -40,11 +40,45 @@
             </div>
             <div class="col"></div>
         </div>
-        <div class="row mt-2">
-            <div class="col text-center">
-                <button class="btn btn-primary" style="width: 100%;"
-                    (click)="sendInstruction(KEY_EVENT.SPACE)">SPACE</button>
+        <div>
+            <div class="keyboard pt-2 pb-2 mt-4 mb-4">
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.Q)">q</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.W)">w</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.E)">e</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.R)">r</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.T)">t</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.Y)">y</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.U)">u</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.I)">i</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.O)">o</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.P)">p</button>
+                <br>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.A)">a</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.S)">s</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.D)">d</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.F)">f</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.G)">g</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.H)">h</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.J)">j</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.K)">k</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.L)">l</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.BACKSPACE)">&lt;-</button>
+                <br>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.Z)">z</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.X)">x</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.C)">c</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.V)">v</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.B)">b</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.N)">n</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.M)">m</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.COMMA)">,</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.PERIOD)">.</button>
             </div>
+        </div>
+
+        <div class="mt-4">
+            <button class="btn btn-primary" style="width: 100%;"
+                (click)="sendInstruction(KEY_EVENT.SPACE)">SPACE</button>
         </div>
     </div>
 </div>

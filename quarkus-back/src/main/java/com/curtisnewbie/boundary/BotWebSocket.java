@@ -156,16 +156,9 @@ public class BotWebSocket {
      * Instruct the bot to simulate keyboard inputs
      */
     private void instructBot(String instruction) {
-        if (instruction.equals(Key.ARROW_DOWN.getStr())) {
-            bot.keyType(Key.ARROW_DOWN.getKeyEvent());
-        } else if (instruction.equals(Key.ARROW_LEFT.getStr())) {
-            bot.keyType(Key.ARROW_LEFT.getKeyEvent());
-        } else if (instruction.equals(Key.ARROW_RIGHT.getStr())) {
-            bot.keyType(Key.ARROW_RIGHT.getKeyEvent());
-        } else if (instruction.equals(Key.ARROW_UP.getStr())) {
-            bot.keyType(Key.ARROW_UP.getKeyEvent());
-        } else if (instruction.equals(Key.SPACE.getStr())) {
-            bot.keyType(Key.SPACE.getKeyEvent());
+        if (Key.KEYMAP.containsKey(instruction)) {
+            int keyEvent = Key.KEYMAP.get(instruction);
+            bot.keyType(keyEvent);
         }
     }
 }
