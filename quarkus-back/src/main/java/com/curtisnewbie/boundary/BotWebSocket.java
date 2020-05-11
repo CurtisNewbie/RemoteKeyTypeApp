@@ -93,7 +93,6 @@ public class BotWebSocket {
     @OnError
     public void onError(Throwable t, Session session) {
         synchronized (lock) {
-            logger.error(String.format("Error Occured %s", t != null ? ": " + t.getMessage() : ""));
             if (!session.isOpen()) {
                 if (authSession != null && session.getId() == authSession.getId()) {
                     closeAuthSession();
