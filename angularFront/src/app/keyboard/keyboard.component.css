@@ -2,7 +2,7 @@
   background: darkgray;
 }
 @media (max-width: 599.99px) {
-  .container {
+  .container-fluid {
     padding: 0px;
   }
 
