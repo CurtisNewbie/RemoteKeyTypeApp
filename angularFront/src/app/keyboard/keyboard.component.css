@@ -1,7 +1,7 @@
 .keyboard {
   background: darkgray;
 }
-@media (max-width: 599.99px) {
+@media (max-width: 399.99px) {
   .container-fluid {
     padding: 0px;
   }
@@ -11,10 +11,34 @@
   }
 }
 
+@media (min-width: 400px) and (max-width: 499.99px) {
+  .container-fluid {
+    padding: 0px;
+  }
+
+  .key {
+    margin: 2.3px;
+    font-size: 1.2em;
+  }
+}
+
+@media (min-width: 500px) and (max-width: 599.99px) {
+  .container-fluid {
+    padding: 0px;
+  }
+
+  .key {
+    padding: 13px;
+    margin: 3px;
+    font-size: 1.4em;
+  }
+}
+
 @media (min-width: 600px) and (max-width: 991.98px) {
   .key {
-    padding: 15px;
+    padding: 20px;
     margin: 4px;
+    font-size: 1.5em;
   }
 }
 
@@ -22,5 +46,6 @@
   .key {
     padding: 25px;
     margin: 10px;
+    font-size: 1.7em;
   }
 }

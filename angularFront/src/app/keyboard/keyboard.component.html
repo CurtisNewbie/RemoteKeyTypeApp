@@ -16,32 +16,33 @@
             <button class="btn btn-primary" (click)="sendAuthKey()">Send</button>
         </div>
     </div>
-    <div *ngIf="wss && authKeySent">
+    <!-- <div *ngIf="wss && authKeySent"> -->
+    <div>
         <div class="row">
             <div class="col"></div>
             <div class="col text-center">
-                <button class="btn btn-primary" (click)="sendInstruction(KEY_EVENT.ARROW_UP)">UP</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.ARROW_UP)">UP</button>
             </div>
             <div class="col"></div>
         </div>
         <div class="row">
             <div class="col text-right">
-                <button class="btn btn-primary " (click)="sendInstruction(KEY_EVENT.ARROW_LEFT)">LEFT</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.ARROW_LEFT)">LEFT</button>
             </div>
             <div class="col"></div>
             <div class="col text-left">
-                <button class="btn btn-primary" (click)="sendInstruction(KEY_EVENT.ARROW_RIGHT)">RIGHT</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.ARROW_RIGHT)">RIGHT</button>
             </div>
         </div>
         <div class="row">
             <div class="col"></div>
             <div class="col text-center">
-                <button class="btn btn-primary" (click)="sendInstruction(KEY_EVENT.ARROW_DOWN)">DOWN</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.ARROW_DOWN)">DOWN</button>
             </div>
             <div class="col"></div>
         </div>
         <div>
-            <div class="keyboard pt-2 pb-2 mt-4 mb-4">
+            <div class="keyboard pt-4 pb-4 mt-4 mb-4">
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.Q)">q</button>
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.W)">w</button>
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.E)">e</button>
@@ -62,7 +63,6 @@
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.J)">j</button>
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.K)">k</button>
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.L)">l</button>
-                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.BACKSPACE)">&lt;-</button>
                 <br>
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.Z)">z</button>
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.X)">x</button>
@@ -71,13 +71,17 @@
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.B)">b</button>
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.N)">n</button>
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.M)">m</button>
+                <br>
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.COMMA)">,</button>
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.PERIOD)">.</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.SLASH)">/</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.BACKSLASH)">\</button>
+                <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.BACKSPACE)">&lt;-</button>
                 <button class="btn btn-primary key" (click)="sendInstruction(KEY_EVENT.ENTER)">&#x23ce;</button>
             </div>
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4 mb-4">
             <button class="btn btn-primary" style="width: 100%;"
                 (click)="sendInstruction(KEY_EVENT.SPACE)">SPACE</button>
         </div>
