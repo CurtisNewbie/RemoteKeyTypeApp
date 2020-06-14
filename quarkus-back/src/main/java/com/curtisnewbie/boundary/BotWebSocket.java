@@ -6,18 +6,13 @@ import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-
-import com.curtisnewbie.auth.Authenticator;
-import com.curtisnewbie.bot.Bot;
-import com.curtisnewbie.bot.Key;
-
+import com.curtisnewbie.auth.AuthCoordinator;
 import org.jboss.logging.Logger;
 
 import io.quarkus.runtime.StartupEvent;
@@ -29,27 +24,21 @@ import io.quarkus.runtime.StartupEvent;
  * <p>
  * ------------------------------------
  * <p>
- * The boundary of this WebApp that establishes a communication with clients
- * using websocket
+ * The boundary of this WebApp that establishes a communication with clients using websocket
  * </p>
  */
 @ServerEndpoint("/bot")
 @ApplicationScoped
 public class BotWebSocket {
 
-    private final Logger logger = Logger.getLogger(this.getClass());
-    private final Object lock = new Object();
+    private static final Logger logger = Logger.getLogger(BotWebSocket.class);
+    private final AuthCoordinator authCoordinator;
 
-    @Inject
-    protected Authenticator auth;
+    public BotWebSocket(AuthCoordinator authCoordinator) {
+        this.authCoordinator = authCoordinator;
+    }
 
-    @Inject
-    protected Bot bot;
-
-    /** the authenticated session */
-    private Session authSession = null;
-
-    /** the sessions that are not authenticated, but are wait for authentication */
+    /** The sessions that are not authenticated, but are waiting for authentication */
     private Map<String, Session> sessions = new HashMap<>();
 
     protected void onStart(@Observes StartupEvent se) {
@@ -62,29 +51,24 @@ public class BotWebSocket {
 
     @OnOpen
     public void onOpen(Session session) {
-        synchronized (lock) {
-            // only one authenticated session is allowed
-            if (authSession != null && authSession.isOpen()) {
-                closeSession(session);
-            } else if (authSession != null && !authSession.isOpen()) {
-                closeAuthSession();
-                auth.genAuthKey();
-            } else {
+        // only one authenticated session is allowed
+        if (!authCoordinator.canAuthenticate()) {
+            closeSession(session); // there is an authenticated user, close the connection directly
+        } else {
+            synchronized (sessions) {
                 // waiting for authentication
                 sessions.put(session.getId(), session);
-                if (!auth.hasAuthKey() || auth.isKeyExpired()) {
-                    auth.genAuthKey();
-                }
             }
+            authCoordinator.tryGenAuthKey();
         }
     }
 
     @OnClose
     public void onClose(Session session) {
-        synchronized (lock) {
-            if (authSession.getId().equals(session.getId())) {
-                closeAuthSession();
-            } else if (sessions.containsKey(session.getId())) {
+        if (authCoordinator.compareAndClose(session)) {
+            logger.info("User Disconnected. Waiting for new connection.");
+        } else {
+            synchronized (sessions) {
                 sessions.remove(session.getId());
             }
         }
@@ -92,11 +76,11 @@ public class BotWebSocket {
 
     @OnError
     public void onError(Throwable t, Session session) {
-        synchronized (lock) {
-            if (!session.isOpen()) {
-                if (authSession != null && session.getId() == authSession.getId()) {
-                    closeAuthSession();
-                } else {
+        if (!session.isOpen()) {
+            if (authCoordinator.compareAndClose(session)) {
+                logger.info("User Disconnected. Waiting for new connection.");
+            } else {
+                synchronized (sessions) {
                     sessions.remove(session.getId());
                 }
             }
@@ -105,28 +89,21 @@ public class BotWebSocket {
 
     @OnMessage
     public void onMsg(String msg, Session session) {
-        synchronized (lock) {
-            if (authSession == null) { // no one authenticated yet
-                if (auth.isAuthenticated(msg.substring(1, msg.length() - 1))) {
-                    logger.info("User Authenticated. Listening instructions");
-                    authSession = session;
-                    // clear all sessions that are not authenticated
-                    for (var s : sessions.values()) {
-                        if (!s.getId().equals(session.getId()))
-                            closeSession(s);
-                    }
-                    sessions.clear();
-                } else if (auth.isKeyExpired()) {
-                    auth.genAuthKey();
-                } else {
-                    // close this connection, since the key is incorrect
-                    closeSession(session);
-                    logger.info("User not authenticated due to incorrect key. Connection Closed.");
+        int resultCode =
+                authCoordinator.instructOrAuthenticate(session, msg.substring(1, msg.length() - 1));
+        if (resultCode == AuthCoordinator.AUTHENTICATED) {
+            logger.info("User Authenticated. Listening instructions");
+            synchronized (sessions) {
+                for (var s : sessions.values()) {
+                    if (!s.getId().equals(session.getId()))
+                        closeSession(s);
                 }
-            } else if (session.getId().equals(authSession.getId())) { // already authenticated
-                // simulate keyboard inputs based on instructioons
-                instructBot(msg.substring(1, msg.length() - 1));
             }
+        } else if (resultCode == AuthCoordinator.REJECTED) {
+            logger.info("User not authenticated due to incorrect key. Connection Closed.");
+            closeSession(session);
+        } else {
+            logger.info("Bot Instructed " + "'" + msg + "'");
         }
     }
 
@@ -137,28 +114,9 @@ public class BotWebSocket {
      */
     private void closeSession(Session session) {
         try {
-            if (session.isOpen())
+            if (session != null && session.isOpen())
                 session.close();
         } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
-    }
-
-    /**
-     * Set {@code authSession} to null and log message
-     */
-    private void closeAuthSession() {
-        authSession = null;
-        logger.info("User Disconnected. Waiting for new connection.");
-    }
-
-    /**
-     * Instruct the bot to simulate keyboard inputs
-     */
-    private void instructBot(String instruction) {
-        if (Key.KEYMAP.containsKey(instruction)) {
-            int keyEvent = Key.KEYMAP.get(instruction);
-            bot.keyType(keyEvent);
         }
     }
 }

@@ -17,20 +17,18 @@ import org.jboss.logging.Logger;
  * <p>
  * Class that takes care of authentication process.
  * <p>
- * A random key (string) should be generated using
- * {@link Authenticator#genAuthKey()}, everytime a new connection established
- * that asks for authentication. This key is displayed on the terminal, and is
- * valid within the time limit {@link Authenticator#authKeyTime}.
+ * A random key (string) should be generated using {@link Authenticator#genAuthKey()}, everytime a
+ * new connection established that asks for authentication. This key is displayed on the terminal,
+ * and is valid within the time limit {@link Authenticator#authKeyTime}.
  * <p>
- * Once the key is expired, authenticatin will still fail even though the key is
- * matched. Only when both conditions are matched, the client is authenticated.
- * Without calling this method may result in that the key is always expired or
- * null.
+ * Once the key is expired, authenticatin will still fail even though the key is matched. Only when
+ * both conditions are matched, the client is authenticated. Without calling this method may result
+ * in that the key is always expired or null.
  */
 @ApplicationScoped
 public class Authenticator {
 
-    private final Logger logger = Logger.getLogger(this.getClass());
+    private static final Logger logger = Logger.getLogger(Authenticator.class);
 
     @ConfigProperty(name = "auth.key.valid.sec")
     protected int authKeyValidSec;
@@ -50,14 +48,14 @@ public class Authenticator {
     public void genAuthKey() {
         this.authKey = randGen.randomStr(keyLen);
         this.authKeyTime = System.currentTimeMillis() + (1000 * authKeyValidSec);
-        this.logger.info(
-                String.format("Authentication Key: '%s' Key is valid for %d seconds", this.authKey, authKeyValidSec));
+        logger.info(String.format("Authentication Key: '%s' Key is valid for %d seconds",
+                this.authKey, authKeyValidSec));
     }
 
     /**
-     * Check whether client is authenticated based on 1) whether the key is expired
-     * and 2) whether the keys match. Once the client is successfully authenticated,
-     * the key is set to null to prevent second use.
+     * Check whether client is authenticated based on 1) whether the key is expired and 2) whether
+     * the keys match. Once the client is successfully authenticated, the key is set to null to
+     * prevent second use.
      * 
      * @param key key for authentication
      * @return whether client is authenticated

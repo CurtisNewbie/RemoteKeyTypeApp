@@ -27,7 +27,8 @@ public class Bot {
         try {
             r = new Robot();
         } catch (AWTException e) {
-            logger.error("This device doesn't support using Robot to simulate keyboard input: " + e.getMessage());
+            logger.error("This device doesn't support using Robot to simulate keyboard input: "
+                    + e.getMessage());
         }
         return r;
     }
@@ -41,6 +42,18 @@ public class Bot {
         if (robot != null) {
             robot.keyPress(keycode);
             robot.keyRelease(keycode);
+        }
+    }
+
+    /**
+     * Instruct the bot to simulate keyboard inputs
+     * 
+     * @param instruction to be parsed to the associated keycode
+     */
+    public void instruct(String instruction) {
+        if (Key.KEYMAP.containsKey(instruction)) {
+            int keyEvent = Key.KEYMAP.get(instruction);
+            keyType(keyEvent);
         }
     }
 }
